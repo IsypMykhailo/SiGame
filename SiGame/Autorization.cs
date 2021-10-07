@@ -65,7 +65,10 @@ namespace SiGame
                              select u).ToList();
             if(searchUser.Count > 0)
             {
-                MessageBox.Show("Success");
+                //MessageBox.Show("Success");
+                this.Hide();
+                new Menu().ShowDialog();
+                this.Close();
             }
             else
             {
