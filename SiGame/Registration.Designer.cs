@@ -184,7 +184,6 @@ namespace SiGame
             this.cbStatus.FormattingEnabled = true;
             this.cbStatus.Items.AddRange(new object[] {
             "User",
-            "Host",
             "Admin"});
             this.cbStatus.Location = new System.Drawing.Point(304, 517);
             this.cbStatus.Name = "cbStatus";
