@@ -35,7 +35,8 @@ namespace SiGame
                         LastName = txbLastName.Text,
                         Email = txbEmail.Text,
                         Username = txbUsername.Text,
-                        Password = txbPassword.Text
+                        Password = txbPassword.Text,
+                        Status = cbStatus.ValueMember
                     };
 
                     var checkUsername = (from u in db.Users
@@ -100,6 +101,8 @@ namespace SiGame
             txbEmail.ForeColor = Color.White;
             txbConfirmPassword.BackColor = Color.FromArgb(51, 102, 153);
             txbConfirmPassword.ForeColor = Color.White;
+            cbStatus.BackColor = Color.FromArgb(51, 102, 153);
+            cbStatus.ForeColor = Color.White;
         }
     }
 }

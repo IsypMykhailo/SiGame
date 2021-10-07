@@ -42,6 +42,8 @@ namespace SiGame
             this.label6 = new System.Windows.Forms.Label();
             this.txbEmail = new System.Windows.Forms.TextBox();
             this.btnSignUp = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbStatus = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // txbPassword
@@ -158,7 +160,7 @@ namespace SiGame
             // 
             this.btnSignUp.AutoSize = true;
             this.btnSignUp.Font = new System.Drawing.Font("Microsoft New Tai Lue", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSignUp.Location = new System.Drawing.Point(270, 521);
+            this.btnSignUp.Location = new System.Drawing.Point(270, 590);
             this.btnSignUp.Name = "btnSignUp";
             this.btnSignUp.Size = new System.Drawing.Size(250, 67);
             this.btnSignUp.TabIndex = 16;
@@ -166,11 +168,36 @@ namespace SiGame
             this.btnSignUp.UseVisualStyleBackColor = true;
             this.btnSignUp.Click += new System.EventHandler(this.btnSignUp_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft New Tai Lue", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(185, 520);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(105, 40);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Status";
+            // 
+            // cbStatus
+            // 
+            this.cbStatus.Font = new System.Drawing.Font("Microsoft New Tai Lue", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbStatus.FormattingEnabled = true;
+            this.cbStatus.Items.AddRange(new object[] {
+            "User",
+            "Host",
+            "Admin"});
+            this.cbStatus.Location = new System.Drawing.Point(304, 517);
+            this.cbStatus.Name = "cbStatus";
+            this.cbStatus.Size = new System.Drawing.Size(384, 48);
+            this.cbStatus.TabIndex = 19;
+            // 
             // Registration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 622);
+            this.ClientSize = new System.Drawing.Size(800, 697);
+            this.Controls.Add(this.cbStatus);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.txbEmail);
             this.Controls.Add(this.label6);
@@ -208,5 +235,7 @@ namespace SiGame
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txbEmail;
         private System.Windows.Forms.Button btnSignUp;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox cbStatus;
     }
 }

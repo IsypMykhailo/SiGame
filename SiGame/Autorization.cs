@@ -14,10 +14,12 @@ namespace SiGame
     public partial class Autorization : Form
     {
         int timerCount = 0;
+        DBSiGameEntities db;
         public Autorization()
         {
             InitializeComponent();
             timer1.Interval = 100;
+            db = new DBSiGameEntities(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ПРОГРАММИРОВАНИЕ\Программирование\Курсовая\SiGame\SiGame\DBSiGame.mdf;Integrated Security=True");
         }
 
         private void label3_MouseDown(object sender, MouseEventArgs e)
@@ -53,6 +55,22 @@ namespace SiGame
             txbLogin.ForeColor = Color.White;
             txbPassword.BackColor = Color.FromArgb(51, 102, 153);
             txbPassword.ForeColor = Color.White;
+        }
+
+        private void btnSignIn_Click(object sender, EventArgs e)
+        {
+            List<Users> users = db.Users.ToList();
+            var searchUser = (from u in users
+                             where txbLogin.Text == u.Username && txbPassword.Text == u.Password || txbLogin.Text == u.Email && txbPassword.Text == u.Password
+                             select u).ToList();
+            if(searchUser.Count > 0)
+            {
+                MessageBox.Show("Success");
+            }
+            else
+            {
+                MessageBox.Show("Wrong Login or Password", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

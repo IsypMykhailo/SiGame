@@ -89,6 +89,7 @@ namespace SiGame
             this.btnSignIn.TabIndex = 4;
             this.btnSignIn.Text = "Sign in";
             this.btnSignIn.UseVisualStyleBackColor = true;
+            this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
             // 
             // label3
             // 

@@ -22,7 +22,7 @@ namespace SiGame
 
         public DBSiGameEntities(string path) : base(path)
         {
-            
+
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
