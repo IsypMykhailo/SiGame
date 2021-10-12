@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace SiGame
 {
     public partial class Menu : Form
     {
         TcpConnect client;
+        Loading loginForm;
         public Menu()
         {
             InitializeComponent();
@@ -62,7 +64,17 @@ namespace SiGame
         private void lblCreate_Click(object sender, EventArgs e)
         {
             client.Connect();
-            client.Send("hello");
+            client.ReadMessage += Client_ReadMessage;
+            loginForm = new Loading();
+            loginForm.Show();                    
+        }
+
+        private void Client_ReadMessage(string answer)
+        {
+            if (answer == "Ready")
+            {
+                loginForm.Close();
+            }
         }
     }
 }

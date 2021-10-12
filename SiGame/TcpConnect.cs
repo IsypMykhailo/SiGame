@@ -87,5 +87,10 @@ namespace SiGame
                 return string.Empty;
             }
         }
+        public event Action<string> ReadMessage;
+        public void ReadAsync()
+        {
+            ReadMessage?.Invoke(Read());
+        }
     }
 }

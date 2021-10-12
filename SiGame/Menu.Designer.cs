@@ -53,7 +53,7 @@ namespace SiGame
             this.lblCreate.Name = "lblCreate";
             this.lblCreate.Size = new System.Drawing.Size(270, 75);
             this.lblCreate.TabIndex = 1;
-            this.lblCreate.Tag = "Create";
+            this.lblCreate.Tag = "Start";
             this.lblCreate.Text = "Start";
             this.lblCreate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblCreate.Click += new System.EventHandler(this.lblCreate_Click);
