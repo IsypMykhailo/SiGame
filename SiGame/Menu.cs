@@ -7,14 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
+using System.Net.Sockets;
 
 namespace SiGame
 {
     public partial class Menu : Form
     {
+        TcpConnect client;
         public Menu()
         {
             InitializeComponent();
+            //client = null;
+            FormClosing += (s, a) =>
+            {
+                if (client != null)
+                    client.Disconnect();
+            };
+            client = new TcpConnect("127.0.0.1", 1000);
+            
         }
 
         private void Menu_Load(object sender, EventArgs e)
@@ -50,12 +61,8 @@ namespace SiGame
 
         private void lblCreate_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void lblJoin_Click(object sender, EventArgs e)
-        {
-
+            client.Connect();
+            client.Send("hello");
         }
     }
 }

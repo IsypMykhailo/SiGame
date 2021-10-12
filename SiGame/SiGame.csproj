@@ -94,6 +94,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBSiGameModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="TcpConnect.cs" />
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>

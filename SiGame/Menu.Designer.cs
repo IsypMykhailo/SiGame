@@ -31,7 +31,6 @@ namespace SiGame
         {
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblCreate = new System.Windows.Forms.Label();
-            this.lblJoin = new System.Windows.Forms.Label();
             this.lblCredits = new System.Windows.Forms.Label();
             this.lblExit = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -50,30 +49,16 @@ namespace SiGame
             // lblCreate
             // 
             this.lblCreate.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCreate.Location = new System.Drawing.Point(268, 181);
+            this.lblCreate.Location = new System.Drawing.Point(268, 212);
             this.lblCreate.Name = "lblCreate";
             this.lblCreate.Size = new System.Drawing.Size(270, 75);
             this.lblCreate.TabIndex = 1;
             this.lblCreate.Tag = "Create";
-            this.lblCreate.Text = "Create";
+            this.lblCreate.Text = "Start";
             this.lblCreate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblCreate.Click += new System.EventHandler(this.lblCreate_Click);
             this.lblCreate.MouseEnter += new System.EventHandler(this.Mouse_Enter);
             this.lblCreate.MouseLeave += new System.EventHandler(this.lblCreate_MouseLeave);
-            // 
-            // lblJoin
-            // 
-            this.lblJoin.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblJoin.Location = new System.Drawing.Point(268, 270);
-            this.lblJoin.Name = "lblJoin";
-            this.lblJoin.Size = new System.Drawing.Size(270, 75);
-            this.lblJoin.TabIndex = 2;
-            this.lblJoin.Tag = "Join";
-            this.lblJoin.Text = "Join";
-            this.lblJoin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblJoin.Click += new System.EventHandler(this.lblJoin_Click);
-            this.lblJoin.MouseEnter += new System.EventHandler(this.Mouse_Enter);
-            this.lblJoin.MouseLeave += new System.EventHandler(this.lblCreate_MouseLeave);
             // 
             // lblCredits
             // 
@@ -88,7 +73,7 @@ namespace SiGame
             // lblExit
             // 
             this.lblExit.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblExit.Location = new System.Drawing.Point(268, 380);
+            this.lblExit.Location = new System.Drawing.Point(268, 329);
             this.lblExit.Name = "lblExit";
             this.lblExit.Size = new System.Drawing.Size(270, 75);
             this.lblExit.TabIndex = 4;
@@ -106,7 +91,6 @@ namespace SiGame
             this.ClientSize = new System.Drawing.Size(800, 527);
             this.Controls.Add(this.lblExit);
             this.Controls.Add(this.lblCredits);
-            this.Controls.Add(this.lblJoin);
             this.Controls.Add(this.lblCreate);
             this.Controls.Add(this.lblTitle);
             this.Name = "Menu";
@@ -121,7 +105,6 @@ namespace SiGame
 
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblCreate;
-        private System.Windows.Forms.Label lblJoin;
         private System.Windows.Forms.Label lblCredits;
         private System.Windows.Forms.Label lblExit;
     }
