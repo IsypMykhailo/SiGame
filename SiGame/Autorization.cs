@@ -15,6 +15,8 @@ namespace SiGame
     {
         int timerCount = 0;
         DBSiGameEntities db;
+        //string Username, Password;
+        Users currentUser;
         public Autorization()
         {
             InitializeComponent();
@@ -65,9 +67,12 @@ namespace SiGame
                              select u).ToList();
             if(searchUser.Count > 0)
             {
+                currentUser = searchUser[0];
+                /*Username = searchUser[0].Username;
+                Password = searchUser[0].Password;*/
                 //MessageBox.Show("Success");
                 this.Hide();
-                new Menu().ShowDialog();
+                new Menu(currentUser).ShowDialog();
                 this.Close();
             }
             else

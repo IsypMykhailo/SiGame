@@ -35,6 +35,7 @@ namespace MainServer
                         sb.Append(Encoding.UTF8.GetString(buf, 0, len));
                     } while (stream.DataAvailable);
                     Console.WriteLine(sb.ToString());
+                    if(sb.ToString()!="close")
                     SendMessage();
                 }
                 catch (Exception ex)
@@ -42,7 +43,7 @@ namespace MainServer
                     //System.Windows.Forms.MessageBox.Show(ex.Message);
                     Console.WriteLine(ex.Message);
                 }
-            } while (sb.ToString().ToLower() != "close");
+            } while (sb.ToString() != "close");
             listener.Stop();
             //System.Windows.Forms.MessageBox.Show("Server stop");
             Console.WriteLine("Server stop");

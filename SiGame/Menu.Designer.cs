@@ -33,6 +33,8 @@ namespace SiGame
             this.lblCreate = new System.Windows.Forms.Label();
             this.lblCredits = new System.Windows.Forms.Label();
             this.lblExit = new System.Windows.Forms.Label();
+            this.lblProfile = new System.Windows.Forms.Label();
+            this.lblStatistic = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -49,9 +51,9 @@ namespace SiGame
             // lblCreate
             // 
             this.lblCreate.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCreate.Location = new System.Drawing.Point(268, 212);
+            this.lblCreate.Location = new System.Drawing.Point(243, 176);
             this.lblCreate.Name = "lblCreate";
-            this.lblCreate.Size = new System.Drawing.Size(270, 75);
+            this.lblCreate.Size = new System.Drawing.Size(330, 75);
             this.lblCreate.TabIndex = 1;
             this.lblCreate.Tag = "Start";
             this.lblCreate.Text = "Start";
@@ -73,9 +75,9 @@ namespace SiGame
             // lblExit
             // 
             this.lblExit.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblExit.Location = new System.Drawing.Point(268, 329);
+            this.lblExit.Location = new System.Drawing.Point(243, 401);
             this.lblExit.Name = "lblExit";
-            this.lblExit.Size = new System.Drawing.Size(270, 75);
+            this.lblExit.Size = new System.Drawing.Size(330, 75);
             this.lblExit.TabIndex = 4;
             this.lblExit.Tag = "Exit";
             this.lblExit.Text = "Exit ";
@@ -84,16 +86,46 @@ namespace SiGame
             this.lblExit.MouseEnter += new System.EventHandler(this.Mouse_Enter);
             this.lblExit.MouseLeave += new System.EventHandler(this.lblCreate_MouseLeave);
             // 
+            // lblProfile
+            // 
+            this.lblProfile.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblProfile.Location = new System.Drawing.Point(243, 251);
+            this.lblProfile.Name = "lblProfile";
+            this.lblProfile.Size = new System.Drawing.Size(330, 75);
+            this.lblProfile.TabIndex = 5;
+            this.lblProfile.Tag = "Profile";
+            this.lblProfile.Text = "Profile";
+            this.lblProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblProfile.Click += new System.EventHandler(this.lblProfile_Click);
+            this.lblProfile.MouseEnter += new System.EventHandler(this.Mouse_Enter);
+            this.lblProfile.MouseLeave += new System.EventHandler(this.lblCreate_MouseLeave);
+            // 
+            // lblStatistic
+            // 
+            this.lblStatistic.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblStatistic.Location = new System.Drawing.Point(243, 326);
+            this.lblStatistic.Name = "lblStatistic";
+            this.lblStatistic.Size = new System.Drawing.Size(330, 75);
+            this.lblStatistic.TabIndex = 6;
+            this.lblStatistic.Tag = "Statistic";
+            this.lblStatistic.Text = "Statistic";
+            this.lblStatistic.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblStatistic.MouseEnter += new System.EventHandler(this.Mouse_Enter);
+            this.lblStatistic.MouseLeave += new System.EventHandler(this.lblCreate_MouseLeave);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 527);
+            this.Controls.Add(this.lblStatistic);
+            this.Controls.Add(this.lblProfile);
             this.Controls.Add(this.lblExit);
             this.Controls.Add(this.lblCredits);
             this.Controls.Add(this.lblCreate);
             this.Controls.Add(this.lblTitle);
             this.Name = "Menu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
             this.Load += new System.EventHandler(this.Menu_Load);
             this.ResumeLayout(false);
@@ -107,5 +139,7 @@ namespace SiGame
         private System.Windows.Forms.Label lblCreate;
         private System.Windows.Forms.Label lblCredits;
         private System.Windows.Forms.Label lblExit;
+        private System.Windows.Forms.Label lblProfile;
+        private System.Windows.Forms.Label lblStatistic;
     }
 }

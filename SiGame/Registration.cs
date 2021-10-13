@@ -36,7 +36,7 @@ namespace SiGame
                         Email = txbEmail.Text,
                         Username = txbUsername.Text,
                         Password = txbPassword.Text,
-                        Status = cbStatus.ValueMember
+                        Status = cbStatus.Text
                     };
 
                     var checkUsername = (from u in db.Users

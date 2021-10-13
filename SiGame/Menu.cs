@@ -17,7 +17,9 @@ namespace SiGame
     {
         TcpConnect client;
         Loading loginForm;
-        public Menu()
+        //string Username, Password;
+        Users currentUser;
+        public Menu(Users user)
         {
             InitializeComponent();
             //client = null;
@@ -27,7 +29,7 @@ namespace SiGame
                     client.Disconnect();
             };*/
             client = new TcpConnect("127.0.0.1", 1000);
-            
+            currentUser = user;
         }
 
         private void Menu_Load(object sender, EventArgs e)
@@ -79,6 +81,8 @@ namespace SiGame
                 Action a = () =>
                 {
                     loginForm.Close();
+                    this.Hide();
+                    new Game(client, currentUser).ShowDialog();
                     this.Close();
                 };
                 if (InvokeRequired)
@@ -90,6 +94,11 @@ namespace SiGame
                     a();
                 }
             }
+        }
+
+        private void lblProfile_Click(object sender, EventArgs e)
+        {
+            new Profile(currentUser).ShowDialog();
         }
     }
 }
