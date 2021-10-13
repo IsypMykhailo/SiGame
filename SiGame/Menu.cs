@@ -21,11 +21,11 @@ namespace SiGame
         {
             InitializeComponent();
             //client = null;
-            FormClosing += (s, a) =>
+            /*FormClosing += (s, a) =>
             {
                 if (client != null)
                     client.Disconnect();
-            };
+            };*/
             client = new TcpConnect("127.0.0.1", 1000);
             
         }
@@ -65,15 +65,30 @@ namespace SiGame
         {
             client.Connect();
             client.ReadMessage += Client_ReadMessage;
+            //client.ReadAsync();
+            Thread thread = new Thread(client.ReadAsync);
+            thread.Start();
             loginForm = new Loading();
             loginForm.Show();                    
         }
 
         private void Client_ReadMessage(string answer)
         {
-            if (answer == "Ready")
+            if (answer.TrimEnd('\0').Equals("Ready"))
             {
-                loginForm.Close();
+                Action a = () =>
+                {
+                    loginForm.Close();
+                    this.Close();
+                };
+                if (InvokeRequired)
+                {
+                    Invoke(a);
+                }
+                else
+                {
+                    a();
+                }
             }
         }
     }

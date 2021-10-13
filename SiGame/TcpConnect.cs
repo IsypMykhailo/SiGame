@@ -91,6 +91,7 @@ namespace SiGame
         public void ReadAsync()
         {
             ReadMessage?.Invoke(Read());
+            //Task.Run(Read);
         }
     }
 }

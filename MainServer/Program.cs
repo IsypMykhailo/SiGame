@@ -49,11 +49,15 @@ namespace MainServer
         }
         static void SendMessage()
         {
+
             ReceiveMessage();
         }
         static void Main(string[] args)
         {
             Connect();
+            client1.Close();
+            client2.Close();
+            listener.Stop();
         }
         static void Connect()
         {
@@ -69,9 +73,11 @@ namespace MainServer
                 Console.WriteLine("2 client connection");
 
                 Console.WriteLine("Game ready");
+                /*byte[] buf = Encoding.UTF8.GetBytes("Ready");
+                client1.GetStream().Write(buf, 0, buf.Length);
+                client2.GetStream().Write(buf, 0, buf.Length);*/
                 Send("Ready");
-                Thread.Sleep(2000);
-                //ReceiveMessage();
+                ReceiveMessage();
             }
             catch (Exception ex)
             {
@@ -84,7 +90,7 @@ namespace MainServer
         {
             if (client1 == null || client2 == null)
                 return;
-
+            
             byte[] b = toByteArray(message);
             client1.GetStream().Write(b, 0, b.Length);
             client2.GetStream().Write(b, 0, b.Length);
