@@ -17,9 +17,10 @@ namespace SiGame
     {
         TcpConnect client;
         Loading loginForm;
+        DBSiGameEntities db;
         //string Username, Password;
         Users currentUser;
-        public Menu(Users user)
+        public Menu(Users user, DBSiGameEntities db_)
         {
             InitializeComponent();
             //client = null;
@@ -30,6 +31,7 @@ namespace SiGame
             };*/
             client = new TcpConnect("127.0.0.1", 1000);
             currentUser = user;
+            db = db_;
         }
 
         private void Menu_Load(object sender, EventArgs e)
@@ -98,7 +100,7 @@ namespace SiGame
 
         private void lblProfile_Click(object sender, EventArgs e)
         {
-            new Profile(currentUser).ShowDialog();
+            new Profile(currentUser, db).ShowDialog();
         }
     }
 }

@@ -15,11 +15,11 @@ namespace SiGame
     {
         DBSiGameEntities db;
         //bool UserAdded;
-        public Registration()
+        public Registration(DBSiGameEntities db)
         {
             InitializeComponent();
             //UserAdded = false;
-            db = new DBSiGameEntities(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ПРОГРАММИРОВАНИЕ\Программирование\Курсовая\SiGame\SiGame\DBSiGame.mdf;Integrated Security=True");
+            this.db = db;
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)

@@ -43,7 +43,7 @@ namespace SiGame
             {
                 timer1.Stop();
                 this.Hide();
-                new Registration().ShowDialog();
+                new Registration(db).ShowDialog();
                 this.Show();
             }
         }
@@ -72,7 +72,7 @@ namespace SiGame
                 Password = searchUser[0].Password;*/
                 //MessageBox.Show("Success");
                 this.Hide();
-                new Menu(currentUser).ShowDialog();
+                new Menu(currentUser, db).ShowDialog();
                 this.Close();
             }
             else

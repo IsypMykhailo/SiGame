@@ -106,6 +106,7 @@ namespace SiGame
             // 
             // edUsername
             // 
+            this.edUsername.Enabled = false;
             this.edUsername.Font = new System.Drawing.Font("Microsoft New Tai Lue", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.edUsername.Location = new System.Drawing.Point(298, 51);
             this.edUsername.Name = "edUsername";
@@ -130,6 +131,7 @@ namespace SiGame
             // 
             // edEmail
             // 
+            this.edEmail.Enabled = false;
             this.edEmail.Font = new System.Drawing.Font("Microsoft New Tai Lue", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.edEmail.Location = new System.Drawing.Point(298, 279);
             this.edEmail.Name = "edEmail";

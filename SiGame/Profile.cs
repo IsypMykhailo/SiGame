@@ -15,10 +15,11 @@ namespace SiGame
         //string Username, Password;
         Users currentUser;
         DBSiGameEntities db;
-        public Profile(Users user)
+        public Profile(Users user, DBSiGameEntities db_)
         {
             InitializeComponent();
-            currentUser = user;
+            db = db_;
+            currentUser = user;            
         }
 
         private void Profile_Load(object sender, EventArgs e)
@@ -36,7 +37,20 @@ namespace SiGame
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
-
+            Users user = db.Users.FirstOrDefault((u)=>u.Username == currentUser.Username);
+            if(user != null)
+            {
+                user.FirstName = edFirstName.Text;
+                user.LastName = edLastName.Text;
+                user.Password = edPassword.Text;
+                user.Status = edStatus.Text;
+                db.SaveChanges();
+                MessageBox.Show("Success!");
+            }
+            else
+            {
+                MessageBox.Show("Error");
+            }
         }
     }
 }
