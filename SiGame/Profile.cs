@@ -14,7 +14,7 @@ namespace SiGame
     {
         //string Username, Password;
         Users currentUser;
-        
+        DBSiGameEntities db;
         public Profile(Users user)
         {
             InitializeComponent();

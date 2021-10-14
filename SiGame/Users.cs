@@ -21,6 +21,5 @@ namespace SiGame
         public string Email { get; set; }
         public string Password { get; set; }
         public string Status { get; set; }
-        public string Status1 { get; set; }
     }
 }
