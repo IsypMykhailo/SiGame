@@ -162,6 +162,7 @@ namespace SiGame
             this.btnSaveChanges.TabIndex = 12;
             this.btnSaveChanges.Text = "Save Changes";
             this.btnSaveChanges.UseVisualStyleBackColor = true;
+            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
             // 
             // Profile
             // 

@@ -14,6 +14,7 @@ namespace SiGame
     {
         //string Username, Password;
         Users currentUser;
+        
         public Profile(Users user)
         {
             InitializeComponent();
@@ -31,6 +32,11 @@ namespace SiGame
             edEmail.Text = currentUser.Email;
             edPassword.Text = currentUser.Password;
             edStatus.Text = currentUser.Status;
+        }
+
+        private void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

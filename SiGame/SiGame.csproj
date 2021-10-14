@@ -57,7 +57,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -112,6 +114,9 @@
     <Compile Include="Profile.Designer.cs">
       <DependentUpon>Profile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Questions.cs">
+      <DependentUpon>DBSiGameModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TcpConnect.cs" />
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
@@ -126,6 +131,9 @@
     </Compile>
     <Compile Include="Registration.Designer.cs">
       <DependentUpon>Registration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Themes.cs">
+      <DependentUpon>DBSiGameModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Users.cs">
       <DependentUpon>DBSiGameModel.tt</DependentUpon>

@@ -19,17 +19,14 @@ namespace SiGame
             : base("name=DBSiGameEntities")
         {
         }
-
-        public DBSiGameEntities(string path) : base(path)
-        {
-
-        }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //throw new UnintentionalCodeFirstException();
+            throw new UnintentionalCodeFirstException();
         }
     
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Themes> Themes { get; set; }
+        public virtual DbSet<Questions> Questions { get; set; }
     }
 }

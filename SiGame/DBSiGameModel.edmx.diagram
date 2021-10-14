@@ -6,6 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="4873030e45d04c958ce34e16be853554" Name="Diagram1">
         <EntityTypeShape EntityType="DBSiGameModel.Users" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBSiGameModel.Themes" Width="1.5" PointX="3.375" PointY="1.375" />
+        <EntityTypeShape EntityType="DBSiGameModel.Questions" Width="1.5" PointX="5.625" PointY="1" />
+        <AssociationConnector Association="DBSiGameModel.FK__Questions__Theme__38996AB5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
