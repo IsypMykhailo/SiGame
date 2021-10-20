@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SiGame</RootNamespace>
     <AssemblyName>SiGame</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -30,6 +30,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -75,26 +76,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminPanel.Designer.cs">
+      <DependentUpon>AdminPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Autorization.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Autorization.Designer.cs">
       <DependentUpon>Autorization.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DBSiGameModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBSiGameModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DBSiGameModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBSiGameModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DBSiGameModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBSiGameModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Game.cs">
       <SubType>Form</SubType>
@@ -114,9 +106,6 @@
     <Compile Include="Profile.Designer.cs">
       <DependentUpon>Profile.cs</DependentUpon>
     </Compile>
-    <Compile Include="Questions.cs">
-      <DependentUpon>DBSiGameModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="TcpConnect.cs" />
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
@@ -132,12 +121,9 @@
     <Compile Include="Registration.Designer.cs">
       <DependentUpon>Registration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Themes.cs">
-      <DependentUpon>DBSiGameModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Users.cs">
-      <DependentUpon>DBSiGameModel.tt</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="AdminPanel.resx">
+      <DependentUpon>AdminPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Autorization.resx">
       <DependentUpon>Autorization.cs</DependentUpon>
     </EmbeddedResource>
@@ -161,17 +147,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Registration.resx">
       <DependentUpon>Registration.cs</DependentUpon>
     </EmbeddedResource>
-    <EntityDeploy Include="DBSiGameModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DBSiGameModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="DBSiGameModel.edmx.diagram">
-      <DependentUpon>DBSiGameModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -187,22 +167,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DBSiGame.mdf" />
-    <Content Include="DBSiGameModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DBSiGameModel.Context.cs</LastGenOutput>
-      <DependentUpon>DBSiGameModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="DBSiGameModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBSiGameModel.edmx</DependentUpon>
-      <LastGenOutput>DBSiGameModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="DBSiGame_log.ldf">
-      <DependentUpon>DBSiGame.mdf</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 и x64%29</ProductName>
@@ -216,6 +180,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBLibary\DBLibary.csproj">
+      <Project>{4b72dfa8-f3e3-4386-884d-40989231fc80}</Project>
+      <Name>DBLibary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

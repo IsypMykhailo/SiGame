@@ -8,20 +8,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using DBLibary;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Net.Sockets;
 
 namespace SiGame
 {
     public partial class Autorization : Form
     {
+        TcpConnect client;
         int timerCount = 0;
-        DBSiGameEntities db;
+        //DBSiGameEntities db;
         //string Username, Password;
         Users currentUser;
         public Autorization()
         {
             InitializeComponent();
             timer1.Interval = 100;
-            db = new DBSiGameEntities(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ПРОГРАММИРОВАНИЕ\Программирование\Курсовая\SiGame\SiGame\DBSiGame.mdf;Integrated Security=True");
+            client = new TcpConnect("127.0.0.1", 1000);
+            currentUser = new Users();
+            //db = new DBSiGameEntities(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\36126\Desktop\SiGameRepo\SiGame\DBSiGame.mdf;Integrated Security=True");
         }
 
         private void label3_MouseDown(object sender, MouseEventArgs e)
@@ -43,7 +50,7 @@ namespace SiGame
             {
                 timer1.Stop();
                 this.Hide();
-                new Registration(db).ShowDialog();
+                //new Registration(db).ShowDialog();
                 this.Show();
             }
         }
@@ -58,26 +65,58 @@ namespace SiGame
             txbPassword.BackColor = Color.FromArgb(51, 102, 153);
             txbPassword.ForeColor = Color.White;
         }
-
+        bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private void CheckUser()
+        {
+            string answer = client.Read().TrimEnd('\0');
+            if (answer == "User valid")
+            {
+                currentUser = client.ReadUser();
+                if(currentUser.Status == "User")
+                {
+                    this.Hide();
+                    new Menu(currentUser, client).ShowDialog();
+                    this.Close();
+                }
+                else if(currentUser.Status == "Admin")
+                {
+                    this.Hide();
+                    new AdminPanel(client).ShowDialog();
+                    this.Close();
+                }
+            }
+            else if (answer == "User not valid")
+            {
+                MessageBox.Show("Error");
+            }
+        }
         private void btnSignIn_Click(object sender, EventArgs e)
         {
-            List<Users> users = db.Users.ToList();
-            var searchUser = (from u in users
-                             where txbLogin.Text == u.Username && txbPassword.Text == u.Password || txbLogin.Text == u.Email && txbPassword.Text == u.Password
-                             select u).ToList();
-            if(searchUser.Count > 0)
+            client.Connect();
+            if (IsValidEmail(txbLogin.Text))
             {
-                currentUser = searchUser[0];
-                /*Username = searchUser[0].Username;
-                Password = searchUser[0].Password;*/
-                //MessageBox.Show("Success");
-                this.Hide();
-                new Menu(currentUser, db).ShowDialog();
-                this.Close();
+                currentUser.Email = txbLogin.Text;
+                currentUser.Password = txbPassword.Text;
+                client.SendUser(currentUser);
+                CheckUser();
             }
-            else
+            else if (!IsValidEmail(txbLogin.Text))
             {
-                MessageBox.Show("Wrong Login or Password", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                currentUser.Username = txbLogin.Text;
+                currentUser.Password = txbPassword.Text;
+                client.SendUser(currentUser);
+                CheckUser();
             }
         }
     }

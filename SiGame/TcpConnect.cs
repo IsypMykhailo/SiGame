@@ -7,6 +7,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using DBLibary;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SiGame
 {
@@ -63,6 +66,32 @@ namespace SiGame
 
             byte[] b = toByteArray(message);
             client.GetStream().Write(b, 0, b.Length);
+        }
+        public void SendUser(Users user)
+        {
+            if (client == null)
+                return;
+            NetworkStream ns = client.GetStream();
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(ns, user);
+        }
+        public Users ReadUser()
+        {
+            if (client == null)
+                return null;
+            NetworkStream ns = client.GetStream();
+            BinaryFormatter bf = new BinaryFormatter();
+            Users userDeserealize = bf.Deserialize(ns) as Users;
+            return userDeserealize;
+        }
+        public List<Users> ReadUserList()
+        {
+            if (client == null)
+                return null;
+            NetworkStream ns = client.GetStream();
+            BinaryFormatter bf = new BinaryFormatter();
+            List<Users> userDeserealize = bf.Deserialize(ns) as List<Users>;
+            return userDeserealize;
         }
         public string Read()
         {

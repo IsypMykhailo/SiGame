@@ -8,18 +8,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Entity;
+using DBLibary;
 
 namespace SiGame
 {
     public partial class Registration : Form
     {
-        DBSiGameEntities db;
+        //DBSiGameEntities db;
+        TcpConnect currentClient;
         //bool UserAdded;
-        public Registration(DBSiGameEntities db)
+        public Registration(TcpConnect client)
         {
             InitializeComponent();
             //UserAdded = false;
-            this.db = db;
+            //this.db = db;
+            currentClient = client;
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)
@@ -38,8 +41,9 @@ namespace SiGame
                         Password = txbPassword.Text,
                         Status = cbStatus.Text
                     };
-
-                    var checkUsername = (from u in db.Users
+                    currentClient.SendUser(user);
+                    string answer = currentClient.Read().TrimEnd('\0');
+                    /*var checkUsername = (from u in db.Users
                                 where txbUsername.Text == u.Username
                                 select u).ToList();
                     var checkEmail = (from u in db.Users
@@ -62,7 +66,7 @@ namespace SiGame
                     else
                     {
                         MessageBox.Show("Such Username and Email exists", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    }*/
                 }
             }
             else

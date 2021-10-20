@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DBLibary;
 
 namespace SiGame
 {
@@ -14,12 +15,14 @@ namespace SiGame
     {
         //string Username, Password;
         Users currentUser;
-        DBSiGameEntities db;
-        public Profile(Users user, DBSiGameEntities db_)
+        //DBSiGameEntities db;
+        TcpConnect currentClient;
+        public Profile(Users user, TcpConnect client)
         {
             InitializeComponent();
-            db = db_;
-            currentUser = user;            
+            //db = db_;
+            currentClient = client;
+            currentUser = user;
         }
 
         private void Profile_Load(object sender, EventArgs e)
@@ -37,8 +40,20 @@ namespace SiGame
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
-            Users user = db.Users.FirstOrDefault((u)=>u.Username == currentUser.Username);
-            if(user != null)
+            //Users user = db.Users.FirstOrDefault((u)=>u.Username == currentUser.Username);
+            Users user = new Users()
+            {
+                Id = Guid.NewGuid(),
+                Username = currentUser.Username,
+                FirstName = edFirstName.Text,
+                LastName = edLastName.Text,
+                Email = currentUser.Email,
+                Password = edPassword.Text,
+                Status = edStatus.Text
+            };
+            currentClient.SendUser(user);
+            string answer = currentClient.Read();
+            /*if (user != null)
             {
                 user.FirstName = edFirstName.Text;
                 user.LastName = edLastName.Text;
@@ -50,7 +65,7 @@ namespace SiGame
             else
             {
                 MessageBox.Show("Error");
-            }
+            }*/
         }
-    }
+    }    
 }

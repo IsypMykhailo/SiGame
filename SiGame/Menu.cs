@@ -10,17 +10,19 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using DBLibary;
 
 namespace SiGame
 {
     public partial class Menu : Form
     {
-        TcpConnect client;
-        Loading loginForm;
-        DBSiGameEntities db;
+        //TcpConnect client;
+        Loading loadingForm;
+        //DBSiGameEntities db;
         //string Username, Password;
         Users currentUser;
-        public Menu(Users user, DBSiGameEntities db_)
+        TcpConnect currentClient;
+        public Menu(Users user, TcpConnect client)
         {
             InitializeComponent();
             //client = null;
@@ -29,9 +31,10 @@ namespace SiGame
                 if (client != null)
                     client.Disconnect();
             };*/
-            client = new TcpConnect("127.0.0.1", 1000);
+            //client = new TcpConnect("127.0.0.1", 1000);
+            currentClient = client;
             currentUser = user;
-            db = db_;
+            //db = db_;
         }
 
         private void Menu_Load(object sender, EventArgs e)
@@ -67,13 +70,15 @@ namespace SiGame
 
         private void lblCreate_Click(object sender, EventArgs e)
         {
-            client.Connect();
-            client.ReadMessage += Client_ReadMessage;
+            currentClient.Connect();
+            currentClient.ReadMessage += Client_ReadMessage;
+            currentClient.Send("Start");
             //client.ReadAsync();
-            Thread thread = new Thread(client.ReadAsync);
+            Thread thread = new Thread(currentClient.ReadAsync);
             thread.Start();
-            loginForm = new Loading();
-            loginForm.Show();                    
+            loadingForm = new Loading();
+            loadingForm.Show();  
+            
         }
 
         private void Client_ReadMessage(string answer)
@@ -82,9 +87,9 @@ namespace SiGame
             {
                 Action a = () =>
                 {
-                    loginForm.Close();
+                    loadingForm.Close();
                     this.Hide();
-                    new Game(client, currentUser).ShowDialog();
+                    new Game(currentClient, currentUser).ShowDialog();
                     this.Close();
                 };
                 if (InvokeRequired)
@@ -100,7 +105,7 @@ namespace SiGame
 
         private void lblProfile_Click(object sender, EventArgs e)
         {
-            new Profile(currentUser, db).ShowDialog();
+            new Profile(currentUser, currentClient).ShowDialog();
         }
     }
 }
