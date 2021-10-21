@@ -23,6 +23,7 @@ namespace SiGame
             //UserAdded = false;
             //this.db = db;
             currentClient = client;
+            currentClient.SendMessage("Registration", MessageType.String);
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)
@@ -41,8 +42,17 @@ namespace SiGame
                         Password = txbPassword.Text,
                         Status = cbStatus.Text
                     };
-                    currentClient.SendUser(user);
-                    string answer = currentClient.Read().TrimEnd('\0');
+                    currentClient.SendMessage(user, MessageType.User);
+                    //currentClient.SendUser(user);
+                    string answer = currentClient.ReadMessage().ToString().TrimEnd('\0');
+                    if(answer == "Complete")
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show(answer);
+                    }
                     /*var checkUsername = (from u in db.Users
                                 where txbUsername.Text == u.Username
                                 select u).ToList();

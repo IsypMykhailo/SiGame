@@ -18,6 +18,7 @@ namespace SiGame
         IPAddress ipAddress;
         int remotePort;
         TcpClient client;
+        //MessageConstructor constructor;
         public TcpConnect(string ip, int port)
         {
             ipAddress = IPAddress.Parse(ip);
@@ -48,7 +49,8 @@ namespace SiGame
 
             try
             {
-                Send("close");
+                //Send("close");
+                SendMessage("close", MessageType.String);
                 System.Threading.Thread.Sleep(100);
                 client.Close();
             }
@@ -57,7 +59,8 @@ namespace SiGame
                 client = null;
             }
         }
-        private byte[] toByteArray(string s) => Encoding.UTF8.GetBytes(s);
+        #region old
+        /*private byte[] toByteArray(string s) => Encoding.UTF8.GetBytes(s);
         private string toStringFromByte(byte[] b) => Encoding.UTF8.GetString(b);
         public void Send(string message)
         {
@@ -115,11 +118,48 @@ namespace SiGame
             {
                 return string.Empty;
             }
+        }*/
+        #endregion
+
+        public void SendMessage(object content, MessageType type)
+        {
+            MessageConstructor constructor = new MessageConstructor(content, type);
+            if (client == null)
+                return;
+            NetworkStream ns = client.GetStream();
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(ns, constructor);
         }
-        public event Action<string> ReadMessage;
+        
+        public object ReadMessage()
+        {
+            if (client == null)
+                return null;
+            NetworkStream ns = client.GetStream();
+            BinaryFormatter bf = new BinaryFormatter();
+            MessageConstructor message = bf.Deserialize(ns) as MessageConstructor;
+            if(message.Type == MessageType.String)
+            {
+                string answer = message.Content.ToString();
+                return answer;
+            }
+            else if(message.Type == MessageType.User)
+            {
+                Users user = message.Content as Users;
+                return user;
+            }
+            else if(message.Type == MessageType.UserList)
+            {
+                List<Users> users = message.Content as List<Users>;
+                return users;
+            }
+            return null;
+        }
+        
+        public event Action<string> ReadAsyncMessage;
         public void ReadAsync()
         {
-            ReadMessage?.Invoke(Read());
+            ReadAsyncMessage?.Invoke(ReadMessage().ToString());
             //Task.Run(Read);
         }
     }

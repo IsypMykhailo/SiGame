@@ -71,8 +71,9 @@ namespace SiGame
         private void lblCreate_Click(object sender, EventArgs e)
         {
             currentClient.Connect();
-            currentClient.ReadMessage += Client_ReadMessage;
-            currentClient.Send("Start");
+            currentClient.ReadAsyncMessage += Client_ReadMessage;
+            currentClient.SendMessage("start", MessageType.String);
+            //currentClient.Send("Start");
             //client.ReadAsync();
             Thread thread = new Thread(currentClient.ReadAsync);
             thread.Start();

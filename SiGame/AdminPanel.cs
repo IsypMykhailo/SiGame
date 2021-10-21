@@ -24,7 +24,7 @@ namespace SiGame
         private void AdminPanel_Load(object sender, EventArgs e)
         {
             this.BackColor = Color.FromArgb(51, 102, 153);
-            dgvUsers.DataSource = currentClient.ReadUserList();//db.Users.ToList();
+            dgvUsers.DataSource = currentClient.ReadMessage() as List<Users>;//db.Users.ToList();
             dgvUsers.ReadOnly = true;
             dgvUsers.MultiSelect = false;
             dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -37,7 +37,7 @@ namespace SiGame
             this.Hide();
             new Registration(currentClient).ShowDialog();
             this.Show();
-            dgvUsers.DataSource = currentClient.ReadUserList();
+            dgvUsers.DataSource = currentClient.ReadMessage() as List<Users>;
         }
     }
 }

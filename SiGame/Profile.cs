@@ -51,8 +51,9 @@ namespace SiGame
                 Password = edPassword.Text,
                 Status = edStatus.Text
             };
-            currentClient.SendUser(user);
-            string answer = currentClient.Read();
+            currentClient.SendMessage(user, MessageType.User);
+            //currentClient.SendUser(user);
+            string answer = currentClient.ReadMessage().ToString();
             /*if (user != null)
             {
                 user.FirstName = edFirstName.Text;

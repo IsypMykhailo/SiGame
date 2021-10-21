@@ -22,7 +22,8 @@ namespace SiGame
             client = client_;
             FormClosing += (s, a) =>
             {
-                client.Send("close");
+                //client.Send("close");
+                client.SendMessage("close", MessageType.String);
                 if (client != null)
                     client.Disconnect();
             };

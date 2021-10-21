@@ -28,18 +28,20 @@ namespace SiGame
             timer1.Interval = 100;
             client = new TcpConnect("127.0.0.1", 1000);
             currentUser = new Users();
+            client.Connect();
+            
             //db = new DBSiGameEntities(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\36126\Desktop\SiGameRepo\SiGame\DBSiGame.mdf;Integrated Security=True");
         }
 
         private void label3_MouseDown(object sender, MouseEventArgs e)
         {
             label3.ForeColor = Color.DarkMagenta;
-            label3.Location = new Point(216, 400);
+            label3.Location = new Point(162, 325);
         }
 
         private void label3_MouseUp(object sender, MouseEventArgs e)
         {
-            label3.Location = new Point(216, 398);
+            label3.Location = new Point(162, 323);
             timer1.Start();
         }
 
@@ -49,9 +51,11 @@ namespace SiGame
             if(timerCount == 1)
             {
                 timer1.Stop();
+                //client.SendMessage("Registration starts", MessageType.String);
                 this.Hide();
-                //new Registration(db).ShowDialog();
+                new Registration(client).ShowDialog();
                 this.Show();
+                client.SendMessage("Registration finished", MessageType.String);
             }
         }
 
@@ -79,10 +83,12 @@ namespace SiGame
         }
         private void CheckUser()
         {
-            string answer = client.Read().TrimEnd('\0');
+            //string answer = client.Read().TrimEnd('\0');
+            string answer = client.ReadMessage().ToString().TrimEnd('\0');
             if (answer == "User valid")
             {
-                currentUser = client.ReadUser();
+                //currentUser = client.ReadUser();
+                currentUser = client.ReadMessage() as Users;
                 if(currentUser.Status == "User")
                 {
                     this.Hide();
@@ -103,19 +109,20 @@ namespace SiGame
         }
         private void btnSignIn_Click(object sender, EventArgs e)
         {
-            client.Connect();
             if (IsValidEmail(txbLogin.Text))
             {
                 currentUser.Email = txbLogin.Text;
                 currentUser.Password = txbPassword.Text;
-                client.SendUser(currentUser);
+                client.SendMessage(currentUser, MessageType.User);
+                //client.SendUser(currentUser);
                 CheckUser();
             }
             else if (!IsValidEmail(txbLogin.Text))
             {
                 currentUser.Username = txbLogin.Text;
                 currentUser.Password = txbPassword.Text;
-                client.SendUser(currentUser);
+                client.SendMessage(currentUser, MessageType.User);
+                //client.SendUser(currentUser);
                 CheckUser();
             }
         }
