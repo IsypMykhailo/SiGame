@@ -243,6 +243,7 @@ namespace MainServer
                     Console.WriteLine("Game Ready");
                 }
             }
+            clientAnswer = null;
         }
 
         static void Register(TcpClient client)

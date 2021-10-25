@@ -54,30 +54,6 @@ namespace SiGame
                     {
                         MessageBox.Show(answer);
                     }
-                    /*var checkUsername = (from u in db.Users
-                                where txbUsername.Text == u.Username
-                                select u).ToList();
-                    var checkEmail = (from u in db.Users
-                                      where txbEmail.Text == u.Email
-                                      select u).ToList();
-                    if (checkUsername.Count == 0 && checkEmail.Count == 0)
-                    {
-                        db.Users.Add(user);
-                        db.SaveChanges();
-                        this.Close();
-                    }
-                    else if (checkUsername.Count != 0 && checkEmail.Count == 0)
-                    {
-                        MessageBox.Show("Such Username exists", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else if(checkEmail.Count != 0 && checkUsername.Count == 0)
-                    {
-                        MessageBox.Show("Such Email exists", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Such Username and Email exists", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }*/
                 }
             }
             else
