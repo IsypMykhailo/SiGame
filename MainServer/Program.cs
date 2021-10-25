@@ -16,11 +16,8 @@ namespace MainServer
         static int port = 1000;
         static string ip = "127.0.0.1";
         static TcpListener listener;
-        //static TcpClient client1;
-        //static TcpClient client2;
         static List<Users> connectedUsers = new List<Users>();
         static string clientAnswer;
-        //static List<TcpClient> clients;
         static DBSiGameEntities db;
 
 
@@ -168,7 +165,7 @@ namespace MainServer
 
         static void Main(string[] args)
         {
-            db = new DBSiGameEntities(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\36126\Desktop\SiGameRepo\MainServer\DBSiGame.mdf;Integrated Security=True;Connect Timeout=30");
+            db = new DBSiGameEntities(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\ПРОГРАММИРОВАНИЕ\Программирование\Курсовая\SiGameRepo\MainServer\DBSiGame.mdf;Integrated Security=True;Connect Timeout=30");
             listener = new TcpListener(new IPEndPoint(IPAddress.Parse(ip), port));
             //listener.Start();
 
@@ -182,193 +179,131 @@ namespace MainServer
             //listener.Stop();
             Console.ReadLine();
         }
+        static void Autorize(TcpClient client)
+        {
+            Users user1 = ReadMessage(client) as Users;
+            if (IsValidUser(user1))
+            {
+                SendMessage("User valid", MessageType.String, client);
+            }
+            else if (!IsValidUser(user1))
+            {
+                SendMessage("User not valid", MessageType.String, client);
+            }
+            Console.WriteLine("1 client connection");
+            user1 = SearchUser(user1);
+            SendMessage(user1, MessageType.User, client);
+            if (user1.Status == "Admin")
+            {
+                SendMessage(db.Users.ToList(), MessageType.UserList, client);
+                NetworkStream stream = client.GetStream();
+                int len = 0;
+                byte[] buf = new byte[1024];
+                StringBuilder sb = new StringBuilder();
+                do
+                {
+                    sb.Clear();
+                    do
+                    {
+                        len = stream.Read(buf, 0, buf.Length);
+                        sb.Append(Encoding.UTF8.GetString(buf, 0, len));
+                    } while (stream.DataAvailable);
+
+                    Console.WriteLine($"Client: {client.Client.RemoteEndPoint}, Message: {sb}");
+
+                    buf = Encoding.UTF8.GetBytes("Got it!");
+                    stream.Write(buf, 0, buf.Length);
+                } while (clientAnswer == "close");
+            }
+            else if (user1.Status == "User")
+            {
+                NetworkStream stream = client.GetStream();
+                int len = 0;
+                byte[] buf = new byte[1024];
+                StringBuilder sb = new StringBuilder();
+                do
+                {
+                    sb.Clear();
+                    do
+                    {
+                        len = stream.Read(buf, 0, buf.Length);
+                        sb.Append(Encoding.UTF8.GetString(buf, 0, len));
+                    } while (stream.DataAvailable);
+                    clientAnswer = sb.ToString();
+                    Console.WriteLine($"Client: {client.Client.RemoteEndPoint}, Message: {sb}");
+
+                } while (clientAnswer != "start");
+            }
+            if (clientAnswer == "start")
+            {
+                connectedUsers.Add(user1);
+                if (connectedUsers.Count == 2)
+                {
+                    SendMessage("Ready", MessageType.String, client);
+                    Console.WriteLine("Game Ready");
+                }
+            }
+        }
+
+        static void Register(TcpClient client)
+        {
+            do
+            {
+                Users user = ReadMessage(client) as Users;
+                var checkUsername = (from u in db.Users
+                                     where user.Username == u.Username
+                                     select u).ToList();
+                var checkEmail = (from u in db.Users
+                                  where user.Email == u.Email
+                                  select u).ToList();
+                if (checkUsername.Count == 0 && checkEmail.Count == 0)
+                {
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    SendMessage("Complete", MessageType.String, client);
+                }
+                else if (checkUsername.Count != 0 && checkEmail.Count == 0)
+                {
+                    SendMessage("Such Username exists", MessageType.String, client);
+                }
+                else if (checkEmail.Count != 0 && checkUsername.Count == 0)
+                {
+                    SendMessage("Such Email exists", MessageType.String, client);
+                }
+                else
+                {
+                    SendMessage("Such Username and Email exists", MessageType.String, client);
+                }
+                clientAnswer = ReadMessage(client).ToString();
+            } while (clientAnswer == "Registration finished");
+
+        }
+
         static void Connect()
         {
             TcpClient currentClient;
             listener.Start();
+            
             try
             {
                 currentClient = listener.AcceptTcpClient();
-
-                #region repeat
-                Users user1 = ReadMessage(currentClient) as Users;
-                if (IsValidUser(user1))
-                {
-                    SendMessage("User valid", MessageType.String, currentClient);
-                }
-                else if (!IsValidUser(user1))
-                {
-                    SendMessage("User not valid", MessageType.String, currentClient);
-                }
-                Console.WriteLine("1 client connection");
-                user1 = SearchUser(user1);
-                SendMessage(user1, MessageType.User, currentClient);
-                if (user1.Status == "Admin")
-                {
-                    SendMessage(db.Users.ToList(), MessageType.UserList, currentClient);
-                    NetworkStream stream = currentClient.GetStream();
-                    int len = 0;
-                    byte[] buf = new byte[1024];
-                    StringBuilder sb = new StringBuilder();
-                    do
-                    {
-                        sb.Clear();
-                        do
-                        {
-                            len = stream.Read(buf, 0, buf.Length);
-                            sb.Append(Encoding.UTF8.GetString(buf, 0, len));
-                        } while (stream.DataAvailable);
-
-                        Console.WriteLine($"Client: {currentClient.Client.RemoteEndPoint}, Message: {sb}");
-
-                        buf = Encoding.UTF8.GetBytes("Got it!");
-                        stream.Write(buf, 0, buf.Length);
-                    } while (clientAnswer == "close");
-                }
-                else if (user1.Status == "User")
-                {
-                    NetworkStream stream = currentClient.GetStream();
-                    int len = 0;
-                    byte[] buf = new byte[1024];
-                    StringBuilder sb = new StringBuilder();
-                    do
-                    {
-                        sb.Clear();
-                        do
-                        {
-                            len = stream.Read(buf, 0, buf.Length);
-                            sb.Append(Encoding.UTF8.GetString(buf, 0, len));
-                        } while (stream.DataAvailable);
-                        clientAnswer = sb.ToString();
-                        Console.WriteLine($"Client: {currentClient.Client.RemoteEndPoint}, Message: {sb}");
-
-                    } while (clientAnswer != "start");
-                }
-                if (clientAnswer == "start")
-                {
-                    connectedUsers.Add(user1);
-                    if (connectedUsers.Count == 2)
-                    {
-                        SendMessage("Ready", MessageType.String, currentClient);
-                        Console.WriteLine("Game Ready");
-                    }
-                }
-
-
-
-                #endregion
-                
-                clientAnswer = ReadMessage(currentClient).ToString();
-               
+                do
+                {                    
+                    clientAnswer = ReadMessage(currentClient).ToString();
                     if (clientAnswer == "Registration")
-                    {
-                        do
-                        {
-                            Users user = ReadMessage(currentClient) as Users;
-                            var checkUsername = (from u in db.Users
-                                                 where user.Username == u.Username
-                                                 select u).ToList();
-                            var checkEmail = (from u in db.Users
-                                              where user.Email == u.Email
-                                              select u).ToList();
-                            if (checkUsername.Count == 0 && checkEmail.Count == 0)
-                            {
-                                db.Users.Add(user);
-                                db.SaveChanges();
-                                SendMessage("Complete", MessageType.String, currentClient);
-                            }
-                            else if (checkUsername.Count != 0 && checkEmail.Count == 0)
-                            {
-                                SendMessage("Such Username exists", MessageType.String, currentClient);
-                            }
-                            else if (checkEmail.Count != 0 && checkUsername.Count == 0)
-                            {
-                                SendMessage("Such Email exists", MessageType.String, currentClient);
-                            }
-                            else
-                            {
-                                SendMessage("Such Username and Email exists", MessageType.String, currentClient);
-                            }
-                            clientAnswer = ReadMessage(currentClient).ToString();
-                        } while (clientAnswer == "Registration finished");
-
-                    }
-                    //clientAnswer = ReadMessage(currentClient).ToString();
-
-                    user1 = ReadMessage(currentClient) as Users;
-                    if (IsValidUser(user1))
-                    {
-                        SendMessage("User valid", MessageType.String, currentClient);
-                    }
-                    else if (!IsValidUser(user1))
-                    {
-                        SendMessage("User not valid", MessageType.String, currentClient);
-                    }
-                    Console.WriteLine("1 client connection");
-                    user1 = SearchUser(user1);
-                    SendMessage(user1, MessageType.User, currentClient);
-                    if (user1.Status == "Admin")
-                    {
-                        SendMessage(db.Users.ToList(), MessageType.UserList, currentClient);
-                        NetworkStream stream = currentClient.GetStream();
-                        int len = 0;
-                        byte[] buf = new byte[1024];
-                        StringBuilder sb = new StringBuilder();
-                        do
-                        {
-                            sb.Clear();
-                            do
-                            {
-                                len = stream.Read(buf, 0, buf.Length);
-                                sb.Append(Encoding.UTF8.GetString(buf, 0, len));
-                            } while (stream.DataAvailable);
-
-                            Console.WriteLine($"Client: {currentClient.Client.RemoteEndPoint}, Message: {sb}");
-
-                            buf = Encoding.UTF8.GetBytes("Got it!");
-                            stream.Write(buf, 0, buf.Length);
-                        } while (clientAnswer == "close");
-                    }
-                    else if (user1.Status == "User")
-                    {
-                        NetworkStream stream = currentClient.GetStream();
-                        int len = 0;
-                        byte[] buf = new byte[1024];
-                        StringBuilder sb = new StringBuilder();
-                        do
-                        {
-                            sb.Clear();
-                            do
-                            {
-                                len = stream.Read(buf, 0, buf.Length);
-                                sb.Append(Encoding.UTF8.GetString(buf, 0, len));
-                            } while (stream.DataAvailable);
-                            clientAnswer = sb.ToString();
-                            Console.WriteLine($"Client: {currentClient.Client.RemoteEndPoint}, Message: {sb}");
-
-                        } while (clientAnswer != "start");
-                    }
-                    if (clientAnswer == "start")
-                    {
-                        connectedUsers.Add(user1);
-                        if (connectedUsers.Count == 2)
-                        {
-                            SendMessage("Ready", MessageType.String, currentClient);
-                            Console.WriteLine("Game Ready");
-                        }
-                    }
-                
-
-                    currentClient.Close();
-                               
+                        Register(currentClient);
+                    else if (clientAnswer == "Autorization")
+                        Autorize(currentClient);                    
+                } while (clientAnswer != "close");
+                currentClient.Close();
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
             finally
             {
+
                 listener.Stop();
             }
         }

@@ -36,12 +36,12 @@ namespace SiGame
         private void label3_MouseDown(object sender, MouseEventArgs e)
         {
             label3.ForeColor = Color.DarkMagenta;
-            label3.Location = new Point(162, 325);
+            label3.Location = new Point(216, 400);
         }
 
         private void label3_MouseUp(object sender, MouseEventArgs e)
         {
-            label3.Location = new Point(162, 323);
+            label3.Location = new Point(216, 398);
             timer1.Start();
         }
 
@@ -55,7 +55,7 @@ namespace SiGame
                 this.Hide();
                 new Registration(client).ShowDialog();
                 this.Show();
-                client.SendMessage("Registration finished", MessageType.String);
+                //client.SendMessage("Registration finished", MessageType.String);
             }
         }
 
@@ -111,6 +111,7 @@ namespace SiGame
         {
             if (IsValidEmail(txbLogin.Text))
             {
+                client.SendMessage("Autorization", MessageType.String);
                 currentUser.Email = txbLogin.Text;
                 currentUser.Password = txbPassword.Text;
                 client.SendMessage(currentUser, MessageType.User);
@@ -119,6 +120,7 @@ namespace SiGame
             }
             else if (!IsValidEmail(txbLogin.Text))
             {
+                client.SendMessage("Autorization", MessageType.String);
                 currentUser.Username = txbLogin.Text;
                 currentUser.Password = txbPassword.Text;
                 client.SendMessage(currentUser, MessageType.User);

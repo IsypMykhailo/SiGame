@@ -47,6 +47,7 @@ namespace SiGame
                     string answer = currentClient.ReadMessage().ToString().TrimEnd('\0');
                     if(answer == "Complete")
                     {
+                        currentClient.SendMessage("Registration finished", MessageType.String);
                         this.Close();
                     }
                     else
